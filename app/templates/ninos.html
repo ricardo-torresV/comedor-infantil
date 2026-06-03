@@ -59,6 +59,23 @@
             font-size: 14px;
         }
         tr:hover td { background: #FFF9F4; }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary { background: #E8916A; color: #FFFFFF; }
+        .btn-primary:hover { background: #D47B55; }
+        .btn-secondary { background: #FDF0E8; color: #5D4037; }
+        .btn-secondary:hover { background: #F5E0D0; }
         .badge {
             display: inline-block;
             padding: 4px 12px;
@@ -88,6 +105,7 @@
                 <h1>👶 Niños Matriculados</h1>
                 <p>Listado de niños inscritos en la guardería</p>
             </div>
+            <a href="/nuevo-nino" class="btn btn-primary">➕ Registrar Nuevo Niño</a>
         </div>
         <table>
             <thead>

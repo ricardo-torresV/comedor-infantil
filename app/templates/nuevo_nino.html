@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comedor Infantil - Registrar Niño</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #FFF8F0;
+            color: #5D4037;
+        }
+        nav {
+            background: #E8916A;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #FFFFFF;
+            box-shadow: 0 2px 10px rgba(200, 120, 80, 0.2);
+        }
+        nav h2 { font-size: 20px; font-weight: 600; }
+        nav a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        nav a:hover { opacity: 1; text-decoration: underline; }
+        .container { max-width: 640px; margin: 30px auto; padding: 0 20px; }
+        .header { margin-bottom: 24px; }
+        .header h1 { color: #D47B55; font-size: 24px; }
+        .header p { color: #B8957A; font-size: 14px; margin-top: 4px; }
+        .form-card {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid #F0E0D4;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            color: #5D4037;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 13px 16px;
+            border: 2px solid #F0E0D4;
+            border-radius: 10px;
+            font-size: 14px;
+            background: #FFFCF8;
+            color: #5D4037;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #E8A87C;
+        }
+        .form-row {
+            display: flex;
+            gap: 16px;
+        }
+        .form-row .form-group { flex: 1; }
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+        }
+        .btn {
+            padding: 13px 28px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary { background: #E8916A; color: #FFFFFF; flex: 1; justify-content: center; }
+        .btn-primary:hover { background: #D47B55; }
+        .btn-secondary { background: #F0E0D4; color: #5D4037; }
+        .btn-secondary:hover { background: #E5D0C0; }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2>🍽️ <a href="/dashboard" style="color:#FFFFFF;text-decoration:none">Comedor Infantil</a></h2>
+        <a href="/ninos">← Volver a Niños</a>
+    </nav>
+    <div class="container">
+        <div class="header">
+            <h1>➕ Registrar Nuevo Niño</h1>
+            <p>Completa los datos del niño para matricutarlo en la guardería</p>
+        </div>
+        <div class="form-card">
+            <form id="form-nino">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Número de Matrícula</label>
+                        <input type="number" id="matricula_id" placeholder="Ej: 101" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Nacimiento</label>
+                        <input type="date" id="fecha_nacimiento" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="nombre" placeholder="Nombre y apellidos del niño" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Fecha de Ingreso</label>
+                        <input type="date" id="fecha_ingreso" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Pagador (DNI)</label>
+                        <input type="text" id="pagador_dni" placeholder="DNI del pagador" required>
+                    </div>
+                </div>
+                <div class="actions">
+                    <a href="/ninos" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Niño</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) window.location.href = '/login';
+
+        document.getElementById('form-nino').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                matricula_id: parseInt(document.getElementById('matricula_id').value),
+                nombre: document.getElementById('nombre').value,
+                fecha_nacimiento: document.getElementById('fecha_nacimiento').value,
+                fecha_ingreso: document.getElementById('fecha_ingreso').value,
+                pagador_dni: document.getElementById('pagador_dni').value,
+            };
+            try {
+                const res = await fetch('/ninos/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(data),
+                });
+                if (res.ok) {
+                    window.location.href = '/ninos';
+                } else {
+                    const err = await res.json();
+                    alert('Error: ' + (err.detail || 'No se pudo registrar el niño'));
+                }
+            } catch (err) {
+                alert('Error de conexión con el servidor');
+            }
+        });
+    </script>
+</body>
+</html>

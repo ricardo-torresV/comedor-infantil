@@ -23,6 +23,13 @@ app = FastAPI(
 app.include_router(auth.router)
 app.include_router(pagador.router, dependencies=[Depends(get_current_user)])
 app.include_router(persona_autorizada.router, dependencies=[Depends(get_current_user)])
+
+
+@app.get("/nuevo-nino", response_class=HTMLResponse, dependencies=[Depends(get_current_user)])
+async def nuevo_nino_page():
+    return _html("nuevo_nino.html")
+
+
 app.include_router(nino.router, dependencies=[Depends(get_current_user)])
 app.include_router(menu.router, dependencies=[Depends(get_current_user)])
 app.include_router(plato.router, dependencies=[Depends(get_current_user)])
@@ -55,7 +62,7 @@ async def dashboard_page():
     return _html("dashboard.html")
 
 
-@app.get("/ninos", response_class=HTMLResponse)
+@app.get("/ninos", response_class=HTMLResponse, dependencies=[Depends(get_current_user)])
 async def ninos_page():
     return _html("ninos.html")
 
