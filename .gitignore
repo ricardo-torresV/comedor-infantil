@@ -15,6 +15,10 @@ env/
 # Environment
 .env
 
+# Logs
+*.log
+*.err
+
 # OS
 .DS_Store
 Thumbs.db
