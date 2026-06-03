@@ -19,7 +19,10 @@ class DatabaseManager:
 
     async def disconnect(self):
         if self.pool:
-            await self.pool.close()
+            try:
+                await self.pool.close()
+            except Exception:
+                pass
 
     async def get_tables(self) -> list[dict]:
         async with self.pool.acquire() as conn:
