@@ -39,6 +39,7 @@
 - **Frontend**: HTML + CSS (colores cálidos)
 - **MCP**: Model Context Protocol para conexión con BD
 
+
 ## Estado de Implementacion
 *Actualizado: 2026-06-03*
 

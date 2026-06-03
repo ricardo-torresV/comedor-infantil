@@ -20,6 +20,7 @@ Sistema de control de gastos para guardería. Gestión de niños, pagadores, men
 | v0.3.0 | 2026-06-03 | FastAPI CRUD API para todas las tablas |
 | v0.4.0 | 2026-06-03 | Autenticación JWT + bcrypt + usuario admin |
 | v0.5.0 | 2026-06-03 | Interfaz gráfica de login y dashboard con colores cálidos |
+| v0.6.0 | 2026-06-03 | Dashboard con 3 secciones (niños, platos, tarifas) + formulario registro de niños |
 
 ## Instalación
 
