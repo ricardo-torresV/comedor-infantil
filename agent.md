@@ -32,6 +32,20 @@
 - Se debe registrar qué menú consumió cada niño cada día
 
 ## Stack Tecnológico
-- **Base de datos**: PostgreSQL
-- **Backend**: Python (web framework por definir)
-- **Frontend**: Por definir
+- **Base de datos**: PostgreSQL 18
+- **Backend**: Python 3.13 + FastAPI
+- **ORM**: SQLAlchemy 2.0 (async) + asyncpg
+- **Autenticación**: JWT + bcrypt
+- **Frontend**: HTML + CSS (colores cálidos)
+- **MCP**: Model Context Protocol para conexión con BD
+
+## Estado de Implementacion
+*Actualizado: 2026-06-03*
+
+- [OK] **Niños (Matrícula)**
+- [OK] **Personas Autorizadas para Recoger**
+- [OK] **Personas que Abonan (Pagadores)**
+- [OK] **Menús, Platos e Ingredientes**
+- [OK] **Alergias**
+- [OK] **Coste Mensual**
+- [OK] **Autenticación**
