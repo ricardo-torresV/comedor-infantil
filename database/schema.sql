@@ -78,3 +78,11 @@ CREATE TABLE IF NOT EXISTS comida (
     menu_numero INTEGER NOT NULL REFERENCES menu(numero),
     UNIQUE (nino_matricula, fecha)
 );
+
+-- Tabla: Usuario (autenticación)
+CREATE TABLE IF NOT EXISTS usuario (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

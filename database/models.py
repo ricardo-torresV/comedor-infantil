@@ -1,5 +1,5 @@
 from sqlalchemy import (
-    Column, Integer, String, Date, Text, ForeignKey, UniqueConstraint, PrimaryKeyConstraint
+    Column, Integer, String, Date, DateTime, Text, ForeignKey, UniqueConstraint, PrimaryKeyConstraint, func
 )
 from sqlalchemy.orm import declarative_base, relationship
 
@@ -103,3 +103,11 @@ class Comida(Base):
 
     nino = relationship("Nino", back_populates="comidas")
     menu = relationship("Menu", back_populates="comidas")
+
+
+class Usuario(Base):
+    __tablename__ = "usuario"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(50), unique=True, nullable=False)
+    password_hash = Column(String(255), nullable=False)
+    created_at = Column(DateTime, server_default=func.now())
