@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comedor Infantil - Iniciar Sesión</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #FFF8F0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 50px 45px;
+            width: 420px;
+            box-shadow: 0 8px 30px rgba(200, 140, 100, 0.15);
+            border: 1px solid #F5E6D8;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        .logo h1 {
+            color: #D47B55;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .logo p {
+            color: #B8957A;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .form-group {
+            margin-bottom: 22px;
+        }
+        .form-group label {
+            display: block;
+            color: #5D4037;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #F0E0D4;
+            border-radius: 12px;
+            font-size: 15px;
+            background: #FFFCF8;
+            color: #5D4037;
+            transition: border-color 0.3s;
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: #E8A87C;
+        }
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: #E8916A;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn:hover { background: #D47B55; }
+        .btn:disabled {
+            background: #D4B8A8;
+            cursor: not-allowed;
+        }
+        .error {
+            background: #FFF0EC;
+            color: #C0392B;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: none;
+            border: 1px solid #F5D0C8;
+        }
+        .success {
+            background: #F0F8E0;
+            color: #5B8C3E;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: none;
+            border: 1px solid #D4E8B8;
+        }
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #FFE0D0;
+            border-top: 3px solid #E8916A;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>🍽️ Comedor Infantil</h1>
+            <p>Inicia sesión para continuar</p>
+        </div>
+        <div class="error" id="error-msg"></div>
+        <div class="success" id="success-msg"></div>
+        <form id="login-form">
+            <div class="form-group">
+                <label>Usuario</label>
+                <input type="text" id="username" placeholder="Ingresa tu usuario" required autofocus>
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="password" placeholder="Ingresa tu contraseña" required>
+            </div>
+            <button type="submit" class="btn" id="submit-btn">Iniciar Sesión</button>
+            <div class="spinner" id="spinner"></div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('login-form');
+        const errorEl = document.getElementById('error-msg');
+        const successEl = document.getElementById('success-msg');
+        const submitBtn = document.getElementById('submit-btn');
+        const spinner = document.getElementById('spinner');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.style.display = 'none';
+            spinner.style.display = 'block';
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const res = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    localStorage.setItem('token', data.access_token);
+                    window.location.href = '/dashboard';
+                } else {
+                    errorEl.textContent = data.detail || 'Credenciales inválidas';
+                    errorEl.style.display = 'block';
+                }
+            } catch (err) {
+                errorEl.textContent = 'Error de conexión con el servidor';
+                errorEl.style.display = 'block';
+            }
+            submitBtn.disabled = false;
+            submitBtn.style.display = 'block';
+            spinner.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

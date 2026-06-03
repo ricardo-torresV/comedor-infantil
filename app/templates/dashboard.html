@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comedor Infantil - Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #FFF8F0;
+            color: #5D4037;
+        }
+        nav {
+            background: #E8916A;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #FFFFFF;
+            box-shadow: 0 2px 10px rgba(200, 120, 80, 0.2);
+        }
+        nav h2 { font-size: 20px; font-weight: 600; }
+        nav button {
+            background: transparent;
+            border: 2px solid #FFFFFF;
+            color: #FFFFFF;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        nav button:hover { background: #FFFFFF; color: #E8916A; }
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .welcome {
+            background: #FFFFFF;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #F5E6D8;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(200, 140, 100, 0.08);
+        }
+        .welcome h1 { color: #D47B55; font-size: 24px; }
+        .welcome p { color: #B8957A; margin-top: 8px; font-size: 15px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .card {
+            background: #FFFFFF;
+            border-radius: 14px;
+            padding: 24px;
+            border: 1px solid #F0E0D4;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(200, 140, 100, 0.12);
+            border-color: #E8A87C;
+        }
+        .card .icon { font-size: 32px; margin-bottom: 10px; }
+        .card h3 { color: #5D4037; font-size: 16px; }
+        .card p { color: #B8957A; font-size: 13px; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2>🍽️ Comedor Infantil</h2>
+        <button onclick="logout()">Cerrar Sesión</button>
+    </nav>
+    <div class="container">
+        <div class="welcome">
+            <h1>¡Bienvenido!</h1>
+            <p>Panel de administración del sistema de control de gastos</p>
+        </div>
+        <div class="grid">
+            <div class="card" onclick="navigate('pagadores')">
+                <div class="icon">👤</div>
+                <h3>Pagadores</h3>
+                <p>Gestionar personas que abonan</p>
+            </div>
+            <div class="card" onclick="navigate('ninos')">
+                <div class="icon">👶</div>
+                <h3>Niños</h3>
+                <p>Gestionar matrículas</p>
+            </div>
+            <div class="card" onclick="navigate('autorizados')">
+                <div class="icon">✅</div>
+                <h3>Autorizados</h3>
+                <p>Personas autorizadas</p>
+            </div>
+            <div class="card" onclick="navigate('menus')">
+                <div class="icon">📋</div>
+                <h3>Menús</h3>
+                <p>Gestionar menús y platos</p>
+            </div>
+            <div class="card" onclick="navigate('comidas')">
+                <div class="icon">🍴</div>
+                <h3>Comidas</h3>
+                <p>Registro diario de comidas</p>
+            </div>
+            <div class="card" onclick="navigate('alergias')">
+                <div class="icon">⚠️</div>
+                <h3>Alergias</h3>
+                <p>Control de alergias</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) window.location.href = '/login';
+
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/login';
+        }
+
+        function navigate(section) {
+            document.querySelector('.welcome h1').textContent = 
+                section.charAt(0).toUpperCase() + section.slice(1);
+            document.querySelector('.welcome p').textContent = 
+                'Sección en construcción — próximamente podrás gestionar ' + section;
+        }
+    </script>
+</body>
+</html>
