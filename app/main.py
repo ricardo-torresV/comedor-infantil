@@ -25,7 +25,7 @@ app.include_router(pagador.router, dependencies=[Depends(get_current_user)])
 app.include_router(persona_autorizada.router, dependencies=[Depends(get_current_user)])
 
 
-@app.get("/nuevo-nino", response_class=HTMLResponse, dependencies=[Depends(get_current_user)])
+@app.get("/nuevo-nino", response_class=HTMLResponse)
 async def nuevo_nino_page():
     return _html("nuevo_nino.html")
 
@@ -62,7 +62,7 @@ async def dashboard_page():
     return _html("dashboard.html")
 
 
-@app.get("/ninos", response_class=HTMLResponse, dependencies=[Depends(get_current_user)])
+@app.get("/lista-ninos", response_class=HTMLResponse)
 async def ninos_page():
     return _html("ninos.html")
 

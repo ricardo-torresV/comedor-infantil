@@ -92,7 +92,7 @@
 <body>
     <nav>
         <h2>🍽️ <a href="/dashboard" style="color:#FFFFFF;text-decoration:none">Comedor Infantil</a></h2>
-        <a href="/ninos">← Volver a Niños</a>
+        <a href="/lista-ninos">← Volver a Niños</a>
     </nav>
     <div class="container">
         <div class="header">
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="actions">
-                    <a href="/ninos" class="btn btn-secondary">Cancelar</a>
+                    <a href="/lista-ninos" class="btn btn-secondary">Cancelar</a>
                     <button type="submit" class="btn btn-primary">💾 Guardar Niño</button>
                 </div>
             </form>
@@ -155,7 +155,7 @@
                     body: JSON.stringify(data),
                 });
                 if (res.ok) {
-                    window.location.href = '/ninos';
+                    window.location.href = '/lista-ninos';
                 } else {
                     const err = await res.json();
                     alert('Error: ' + (err.detail || 'No se pudo registrar el niño'));
