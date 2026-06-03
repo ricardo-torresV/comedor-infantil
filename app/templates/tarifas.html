@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comedor Infantil - Valores y Tarifas</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #FFF8F0;
+            color: #5D4037;
+        }
+        nav {
+            background: #E8916A;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #FFFFFF;
+            box-shadow: 0 2px 10px rgba(200, 120, 80, 0.2);
+        }
+        nav h2 { font-size: 20px; font-weight: 600; }
+        nav a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        nav a:hover { opacity: 1; text-decoration: underline; }
+        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        .header { margin-bottom: 25px; }
+        .header h1 { color: #D47B55; font-size: 24px; }
+        .header p { color: #B8957A; font-size: 14px; margin-top: 4px; }
+        .cards-grid { display: flex; flex-direction: column; gap: 18px; }
+        .info-card {
+            background: #FFFFFF;
+            border-radius: 14px;
+            border: 1px solid #F0E0D4;
+            padding: 24px 28px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .info-card .icon {
+            font-size: 40px;
+            width: 64px;
+            height: 64px;
+            background: #FFF5EE;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .info-card .content h3 {
+            color: #5D4037;
+            font-size: 16px;
+        }
+        .info-card .content .value {
+            color: #E8916A;
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+        .info-card .content .sub {
+            color: #B8957A;
+            font-size: 13px;
+            margin-top: 2px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #B8957A;
+        }
+        .empty-state .icon { font-size: 56px; margin-bottom: 12px; }
+        .empty-state p { font-size: 15px; margin-top: 8px; }
+        .table-section {
+            background: #FFFFFF;
+            border-radius: 14px;
+            border: 1px solid #F0E0D4;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .table-section .title {
+            background: #FDF0E8;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #5D4037;
+            border-bottom: 1px solid #F0E0D4;
+        }
+        .table-section table { width: 100%; border-collapse: collapse; }
+        .table-section th {
+            padding: 12px 24px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            color: #8A7A6E;
+            background: #FFF8F0;
+            border-bottom: 1px solid #F0E0D4;
+        }
+        .table-section td {
+            padding: 12px 24px;
+            border-bottom: 1px solid #F5EDE6;
+            font-size: 14px;
+        }
+        .table-section tr:last-child td { border-bottom: none; }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2>🍽️ <a href="/dashboard" style="color:#FFFFFF;text-decoration:none">Comedor Infantil</a></h2>
+        <a href="/dashboard">← Volver al Dashboard</a>
+    </nav>
+    <div class="container">
+        <div class="header">
+            <h1>💰 Valores y Tarifas</h1>
+            <p>Control de costos fijos, tarifas por comida y pagos mensuales</p>
+        </div>
+        <div class="cards-grid">
+            <div class="info-card">
+                <div class="icon">🏷️</div>
+                <div class="content">
+                    <h3>Coste Fijo Mensual</h3>
+                    <div class="value">$ —</div>
+                    <div class="sub">Valor base por niño inscrito</div>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="icon">🍴</div>
+                <div class="content">
+                    <h3>Coste por Comida</h3>
+                    <div class="value">$ —</div>
+                    <div class="sub">Valor por cada comida consumida</div>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="icon">📅</div>
+                <div class="content">
+                    <h3>Comidas este Mes</h3>
+                    <div class="value">—</div>
+                    <div class="sub">Total de comidas registradas en el período actual</div>
+                </div>
+            </div>
+        </div>
+        <div class="table-section">
+            <div class="title">📊 Pagos por Niño</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Nombre</th>
+                        <th>Comidas</th>
+                        <th>Total a Pagar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4">
+                            <div class="empty-state">
+                                <div class="icon">📊</div>
+                                <p>No hay datos de pago disponibles</p>
+                                <p style="font-size:13px">Próximamente podrás configurar tarifas y ver los montos aquí</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) window.location.href = '/login';
+    </script>
+</body>
+</html>

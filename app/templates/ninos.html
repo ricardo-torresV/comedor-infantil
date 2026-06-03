@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comedor Infantil - Niños Matriculados</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #FFF8F0;
+            color: #5D4037;
+        }
+        nav {
+            background: #E8916A;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #FFFFFF;
+            box-shadow: 0 2px 10px rgba(200, 120, 80, 0.2);
+        }
+        nav h2 { font-size: 20px; font-weight: 600; }
+        nav a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        nav a:hover { opacity: 1; text-decoration: underline; }
+        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .header h1 { color: #D47B55; font-size: 24px; }
+        .header p { color: #B8957A; font-size: 14px; margin-top: 4px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #FFFFFF;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid #F0E0D4;
+        }
+        th {
+            background: #FDF0E8;
+            color: #5D4037;
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        td {
+            padding: 14px 16px;
+            border-top: 1px solid #F5EDE6;
+            font-size: 14px;
+        }
+        tr:hover td { background: #FFF9F4; }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .badge-active { background: #E8F0DC; color: #5B8C3E; }
+        .badge-inactive { background: #F0E0D4; color: #A08070; }
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #B8957A;
+        }
+        .empty .icon { font-size: 56px; margin-bottom: 12px; }
+        .empty p { font-size: 15px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2>🍽️ <a href="/dashboard" style="color:#FFFFFF;text-decoration:none">Comedor Infantil</a></h2>
+        <a href="/dashboard">← Volver al Dashboard</a>
+    </nav>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>👶 Niños Matriculados</h1>
+                <p>Listado de niños inscritos en la guardería</p>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Matrícula</th>
+                    <th>Nombre</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Fecha de Ingreso</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="5">
+                        <div class="empty">
+                            <div class="icon">📋</div>
+                            <p>No hay niños matriculados actualmente</p>
+                            <p style="font-size:13px;margin-top:8px">Próximamente podrás agregar y gestionar niños aquí</p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) window.location.href = '/login';
+    </script>
+</body>
+</html>

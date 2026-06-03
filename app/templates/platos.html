@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comedor Infantil - Platos Disponibles</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #FFF8F0;
+            color: #5D4037;
+        }
+        nav {
+            background: #E8916A;
+            padding: 16px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #FFFFFF;
+            box-shadow: 0 2px 10px rgba(200, 120, 80, 0.2);
+        }
+        nav h2 { font-size: 20px; font-weight: 600; }
+        nav a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        nav a:hover { opacity: 1; text-decoration: underline; }
+        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        .header { margin-bottom: 25px; }
+        .header h1 { color: #D47B55; font-size: 24px; }
+        .header p { color: #B8957A; font-size: 14px; margin-top: 4px; }
+        .sections { display: flex; flex-direction: column; gap: 20px; }
+        .section {
+            background: #FFFFFF;
+            border-radius: 14px;
+            border: 1px solid #F0E0D4;
+            overflow: hidden;
+        }
+        .section-title {
+            background: #FDF0E8;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #5D4037;
+            border-bottom: 1px solid #F0E0D4;
+        }
+        .section table { width: 100%; border-collapse: collapse; }
+        .section th {
+            padding: 12px 24px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            color: #8A7A6E;
+            background: #FFF8F0;
+            border-bottom: 1px solid #F0E0D4;
+        }
+        .section td {
+            padding: 12px 24px;
+            border-bottom: 1px solid #F5EDE6;
+            font-size: 14px;
+        }
+        .section tr:last-child td { border-bottom: none; }
+        .empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: #B8957A;
+        }
+        .empty .icon { font-size: 48px; margin-bottom: 10px; }
+        .empty p { font-size: 14px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2>🍽️ <a href="/dashboard" style="color:#FFFFFF;text-decoration:none">Comedor Infantil</a></h2>
+        <a href="/dashboard">← Volver al Dashboard</a>
+    </nav>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ Platos Disponibles</h1>
+            <p>Administración de platos, ingredientes y menús del comedor</p>
+        </div>
+        <div class="sections">
+            <div class="section">
+                <div class="section-title">🥘 Platos</div>
+                <table>
+                    <thead>
+                        <tr><th>Nombre del Plato</th><th>Ingredientes</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="2"><div class="empty"><div class="icon">🥗</div><p>No hay platos registrados</p></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="section">
+                <div class="section-title">🥦 Ingredientes</div>
+                <table>
+                    <thead>
+                        <tr><th>Nombre del Ingrediente</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><div class="empty"><div class="icon">🧅</div><p>No hay ingredientes registrados</p></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="section">
+                <div class="section-title">📋 Menús</div>
+                <table>
+                    <thead>
+                        <tr><th>Número de Menú</th><th>Platos Asignados</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="2"><div class="empty"><div class="icon">📄</div><p>No hay menús registrados</p></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) window.location.href = '/login';
+    </script>
+</body>
+</html>

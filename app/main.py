@@ -53,3 +53,18 @@ async def login_page():
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard_page():
     return _html("dashboard.html")
+
+
+@app.get("/ninos", response_class=HTMLResponse)
+async def ninos_page():
+    return _html("ninos.html")
+
+
+@app.get("/platos", response_class=HTMLResponse)
+async def platos_page():
+    return _html("platos.html")
+
+
+@app.get("/tarifas", response_class=HTMLResponse)
+async def tarifas_page():
+    return _html("tarifas.html")

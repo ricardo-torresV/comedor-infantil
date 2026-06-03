@@ -33,39 +33,62 @@
             transition: 0.3s;
         }
         nav button:hover { background: #FFFFFF; color: #E8916A; }
-        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .container { max-width: 780px; margin: 50px auto; padding: 0 20px; }
         .welcome {
-            background: #FFFFFF;
-            padding: 30px;
-            border-radius: 16px;
-            border: 1px solid #F5E6D8;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(200, 140, 100, 0.08);
+            text-align: center;
+            margin-bottom: 40px;
         }
-        .welcome h1 { color: #D47B55; font-size: 24px; }
-        .welcome p { color: #B8957A; margin-top: 8px; font-size: 15px; }
+        .welcome h1 { color: #D47B55; font-size: 26px; }
+        .welcome p { color: #B8957A; margin-top: 6px; font-size: 15px; }
         .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
         }
         .card {
             background: #FFFFFF;
-            border-radius: 14px;
-            padding: 24px;
+            border-radius: 16px;
+            padding: 28px 32px;
             border: 1px solid #F0E0D4;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 24px;
             cursor: pointer;
             transition: 0.3s;
+            text-decoration: none;
+            color: inherit;
         }
         .card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(200, 140, 100, 0.12);
+            box-shadow: 0 8px 25px rgba(200, 140, 100, 0.15);
             border-color: #E8A87C;
         }
-        .card .icon { font-size: 32px; margin-bottom: 10px; }
-        .card h3 { color: #5D4037; font-size: 16px; }
-        .card p { color: #B8957A; font-size: 13px; margin-top: 5px; }
+        .card-icon {
+            font-size: 48px;
+            width: 80px;
+            height: 80px;
+            background: #FFF5EE;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .card-content h3 {
+            color: #5D4037;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .card-content p {
+            color: #B8957A;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        .card-arrow {
+            margin-left: auto;
+            font-size: 22px;
+            color: #D4B8A8;
+        }
     </style>
 </head>
 <body>
@@ -76,39 +99,33 @@
     <div class="container">
         <div class="welcome">
             <h1>¡Bienvenido!</h1>
-            <p>Panel de administración del sistema de control de gastos</p>
+            <p>Selecciona una opción para comenzar</p>
         </div>
         <div class="grid">
-            <div class="card" onclick="navigate('pagadores')">
-                <div class="icon">👤</div>
-                <h3>Pagadores</h3>
-                <p>Gestionar personas que abonan</p>
-            </div>
-            <div class="card" onclick="navigate('ninos')">
-                <div class="icon">👶</div>
-                <h3>Niños</h3>
-                <p>Gestionar matrículas</p>
-            </div>
-            <div class="card" onclick="navigate('autorizados')">
-                <div class="icon">✅</div>
-                <h3>Autorizados</h3>
-                <p>Personas autorizadas</p>
-            </div>
-            <div class="card" onclick="navigate('menus')">
-                <div class="icon">📋</div>
-                <h3>Menús</h3>
-                <p>Gestionar menús y platos</p>
-            </div>
-            <div class="card" onclick="navigate('comidas')">
-                <div class="icon">🍴</div>
-                <h3>Comidas</h3>
-                <p>Registro diario de comidas</p>
-            </div>
-            <div class="card" onclick="navigate('alergias')">
-                <div class="icon">⚠️</div>
-                <h3>Alergias</h3>
-                <p>Control de alergias</p>
-            </div>
+            <a class="card" href="/ninos">
+                <div class="card-icon">👶</div>
+                <div class="card-content">
+                    <h3>Niños Matriculados</h3>
+                    <p>Consulta y gestiona los datos de los niños inscritos en la guardería</p>
+                </div>
+                <div class="card-arrow">→</div>
+            </a>
+            <a class="card" href="/platos">
+                <div class="card-icon">🍽️</div>
+                <div class="card-content">
+                    <h3>Platos Disponibles</h3>
+                    <p>Administra los platos, ingredientes y menús del comedor</p>
+                </div>
+                <div class="card-arrow">→</div>
+            </a>
+            <a class="card" href="/tarifas">
+                <div class="card-icon">💰</div>
+                <div class="card-content">
+                    <h3>Valores y Tarifas</h3>
+                    <p>Controla los costos fijos, tarifas por comida y pagos mensuales</p>
+                </div>
+                <div class="card-arrow">→</div>
+            </a>
         </div>
     </div>
     <script>
@@ -118,13 +135,6 @@
         function logout() {
             localStorage.removeItem('token');
             window.location.href = '/login';
-        }
-
-        function navigate(section) {
-            document.querySelector('.welcome h1').textContent = 
-                section.charAt(0).toUpperCase() + section.slice(1);
-            document.querySelector('.welcome p').textContent = 
-                'Sección en construcción — próximamente podrás gestionar ' + section;
         }
     </script>
 </body>
