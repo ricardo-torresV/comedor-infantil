@@ -100,6 +100,18 @@ class MenuResponse(MenuBase):
         from_attributes = True
 
 
+class IngredienteUpdate(BaseModel):
+    nombre: str = Field(..., max_length=100)
+
+
+class PlatoUpdate(BaseModel):
+    nombre: str = Field(..., max_length=100)
+
+
+class MenuUpdate(BaseModel):
+    numero: int
+
+
 class MenuPlatoCreate(BaseModel):
     menu_numero: int
     plato_nombre: str = Field(..., max_length=100)

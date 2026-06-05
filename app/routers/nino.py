@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_session
-from app.schemas import NinoCreate, NinoResponse, NinoAutorizadoCreate
+from app.schemas import NinoCreate, NinoResponse, NinoAutorizadoCreate, PersonaAutorizadaResponse
 from app import crud
 
 router = APIRouter(prefix="/ninos", tags=["Niños"])
@@ -43,3 +43,21 @@ async def agregar_autorizado(
         raise HTTPException(400, "La persona autorizada no existe")
     await crud.create_nino_autorizado(db, matricula_id, data.autorizado_dni)
     return {"mensaje": "Persona autorizada asignada correctamente"}
+
+
+@router.get("/{matricula_id}/autorizados", response_model=list[PersonaAutorizadaResponse])
+async def listar_autorizados_nino(matricula_id: int, db: AsyncSession = Depends(get_session)):
+    nino = await crud.get_nino(db, matricula_id)
+    if not nino:
+        raise HTTPException(404, "Niño no encontrado")
+    return await crud.get_autorizados_por_nino(db, matricula_id)
+
+
+@router.delete("/{matricula_id}/autorizados/{dni}", response_model=dict)
+async def eliminar_autorizado(
+    matricula_id: int, dni: str, db: AsyncSession = Depends(get_session)
+):
+    ok = await crud.delete_nino_autorizado(db, matricula_id, dni)
+    if not ok:
+        raise HTTPException(404, "La asignación no existe")
+    return {"mensaje": "Persona autorizada removida correctamente"}

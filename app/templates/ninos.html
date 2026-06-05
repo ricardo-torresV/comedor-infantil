@@ -21,77 +21,181 @@
             box-shadow: 0 2px 10px rgba(200, 120, 80, 0.2);
         }
         nav h2 { font-size: 20px; font-weight: 600; }
-        nav a {
-            color: #FFFFFF;
-            text-decoration: none;
-            font-size: 14px;
-            opacity: 0.9;
-        }
+        nav a { color: #FFFFFF; text-decoration: none; font-size: 14px; opacity: 0.9; }
         nav a:hover { opacity: 1; text-decoration: underline; }
-        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 12px;
         }
         .header h1 { color: #D47B55; font-size: 24px; }
         .header p { color: #B8957A; font-size: 14px; margin-top: 4px; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #FFFFFF;
-            border-radius: 14px;
-            overflow: hidden;
-            border: 1px solid #F0E0D4;
-        }
-        th {
-            background: #FDF0E8;
-            color: #5D4037;
-            padding: 14px 16px;
-            text-align: left;
-            font-size: 13px;
-            font-weight: 600;
-        }
-        td {
-            padding: 14px 16px;
-            border-top: 1px solid #F5EDE6;
-            font-size: 14px;
-        }
-        tr:hover td { background: #FFF9F4; }
         .btn {
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
+            padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;
+            border: none; cursor: pointer; transition: 0.3s;
+            display: inline-flex; align-items: center; gap: 6px;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
         }
         .btn-primary { background: #E8916A; color: #FFFFFF; }
         .btn-primary:hover { background: #D47B55; }
-        .btn-secondary { background: #FDF0E8; color: #5D4037; }
-        .btn-secondary:hover { background: #F5E0D0; }
+        .btn-sm { padding: 5px 12px; font-size: 12px; }
+        .btn-success { background: #8FBC6B; color: #FFFFFF; }
+        .btn-success:hover { background: #7AA85A; }
+        .btn-danger { background: #E88A7A; color: #FFFFFF; }
+        .btn-danger:hover { background: #D47060; }
+        .btn-outline { background: transparent; color: #E8916A; border: 1px solid #E8916A; }
+        .btn-outline:hover { background: #FFF5EE; }
+        .btn-warning { background: #F0C060; color: #FFFFFF; }
+        .btn-warning:hover { background: #E0B050; }
+
+        .layout { display: flex; gap: 24px; align-items: flex-start; }
+        .layout-left { flex: 1; min-width: 0; }
+        .layout-right {
+            width: 420px;
+            flex-shrink: 0;
+            display: none;
+        }
+        .layout-right.visible { display: block; }
+        .layout-left.wide { max-width: 100%; }
+        .layout-left.narrow { max-width: calc(100% - 444px); }
+
+        .card {
+            background: #FFFFFF;
+            border-radius: 14px;
+            border: 1px solid #F0E0D4;
+            overflow: hidden;
+        }
+        .card-header {
+            background: #FDF0E8;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #F0E0D4;
+        }
+        .card-header h3 { font-size: 15px; font-weight: 600; color: #5D4037; }
+        .card-body { padding: 0; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 600;
+            color: #8A7A6E; border-bottom: 1px solid #F0E0D4;
+        }
+        td { padding: 10px 14px; border-bottom: 1px solid #F5EDE6; font-size: 14px; }
+        tr:last-child td { border-bottom: none; }
+
+        .scroll-wrap {
+            max-height: 520px;
+            overflow-y: auto;
+        }
+        .scroll-wrap::-webkit-scrollbar { width: 6px; }
+        .scroll-wrap::-webkit-scrollbar-thumb { background: #E0D0C4; border-radius: 3px; }
+        .scroll-wrap::-webkit-scrollbar-thumb:hover { background: #D0C0B0; }
+        .scroll-wrap table thead { position: sticky; top: 0; z-index: 1; }
+        .scroll-wrap table thead th { background: #FFF8F0; }
+
         .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
+            display: inline-block; padding: 2px 10px; border-radius: 12px;
+            font-size: 12px; font-weight: 500; margin: 1px 2px;
+            background: #FFF0E4; color: #B08060;
         }
         .badge-active { background: #E8F0DC; color: #5B8C3E; }
         .badge-inactive { background: #F0E0D4; color: #A08070; }
+        .badge-remove { cursor: pointer; transition: 0.2s; }
+        .badge-remove:hover { background: #E8D0C0; }
+
         .empty {
-            text-align: center;
-            padding: 60px 20px;
-            color: #B8957A;
+            text-align: center; padding: 30px 20px; color: #B8957A;
         }
-        .empty .icon { font-size: 56px; margin-bottom: 12px; }
-        .empty p { font-size: 15px; }
+        .empty .icon { font-size: 36px; margin-bottom: 8px; }
+        .empty p { font-size: 14px; }
+        .loading { text-align: center; padding: 30px; color: #B8957A; font-size: 14px; }
+        .count { color: #B8957A; font-size: 13px; margin-top: 4px; }
+
+        .row-clickable { cursor: pointer; }
+        .row-clickable:hover td { background: #FFF9F4; }
+        .row-selected td { background: #FFF0E8 !important; }
+
+        .detail-section {
+            border: 1px solid #F0E0D4;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .detail-section-header {
+            background: #FDF0E8;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            border-bottom: 1px solid #F0E0D4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .detail-section-body { padding: 12px 16px; }
+
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .info-item {}
+        .info-item .label { font-size: 11px; color: #B8957A; text-transform: uppercase; letter-spacing: 0.5px; }
+        .info-item .value { font-size: 14px; color: #5D4037; margin-top: 2px; font-weight: 500; }
+
+        .person-card {
+            border: 1px solid #F0E0D4;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            background: #FFFCF8;
+            position: relative;
+        }
+        .person-card .remove-btn {
+            position: absolute;
+            top: 8px; right: 10px;
+            cursor: pointer; color: #D47060;
+            font-size: 16px; font-weight: 700;
+            line-height: 1;
+        }
+        .person-card .remove-btn:hover { color: #C0392B; }
+        .person-card .pgrid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 3px 12px;
+            font-size: 13px;
+        }
+        .person-card .pgrid .plabel {
+            color: #B8957A;
+            white-space: nowrap;
+        }
+        .person-card .pgrid .pvalue { color: #5D4037; }
+
+        .add-form { display: flex; gap: 6px; margin-top: 10px; }
+        .add-form select {
+            flex: 1; padding: 6px 10px; border: 1px solid #F0E0D4; border-radius: 6px;
+            font-size: 12px; background: #FFFCF8; color: #5D4037; outline: none;
+        }
+        .add-form select:focus { border-color: #E8A87C; }
+
+        .alert {
+            padding: 12px 16px; border-radius: 10px; font-size: 13px; margin-bottom: 14px;
+            display: none;
+        }
+        .alert-error { background: #FFF0EC; color: #C0392B; border: 1px solid #F5D0C8; display: block; }
+        .alert-success { background: #F0F8E0; color: #5B8C3E; border: 1px solid #D4E8B8; display: block; }
+        .alert-info { background: #E8F0FA; color: #3A7CBD; border: 1px solid #C8DCF5; display: block; }
+
+        .detail-title {
+            font-size: 18px; font-weight: 600; color: #D47B55;
+            margin-bottom: 16px; padding-bottom: 12px;
+            border-bottom: 2px solid #F0E0D4;
+        }
+        .detail-title .close {
+            float: right; cursor: pointer; color: #D47060;
+            font-size: 20px; line-height: 1;
+        }
+        .detail-title .close:hover { color: #C0392B; }
     </style>
 </head>
 <body>
@@ -104,35 +208,458 @@
             <div>
                 <h1>👶 Niños Matriculados</h1>
                 <p>Listado de niños inscritos en la guardería</p>
+                <div class="count" id="count-info"></div>
             </div>
             <a href="/nuevo-nino" class="btn btn-primary">➕ Registrar Nuevo Niño</a>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Matrícula</th>
-                    <th>Nombre</th>
-                    <th>Fecha de Nacimiento</th>
-                    <th>Fecha de Ingreso</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="5">
-                        <div class="empty">
-                            <div class="icon">📋</div>
-                            <p>No hay niños matriculados actualmente</p>
-                            <p style="font-size:13px;margin-top:8px">Próximamente podrás agregar y gestionar niños aquí</p>
+        <div id="alert-msg" class="alert"></div>
+
+        <div class="layout">
+            <div class="layout-left wide" id="layout-left">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="scroll-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Matrícula</th>
+                                        <th>Nombre</th>
+                                        <th>Fecha Nacimiento</th>
+                                        <th>Fecha Ingreso</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-body">
+                                    <tr>
+                                        <td colspan="5">
+                                            <div class="loading">Cargando datos...</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layout-right" id="layout-right">
+                <div class="detail-title">
+                    Detalle del Niño
+                    <span class="close" onclick="cerrarDetalle()">✕</span>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-header">📋 Información General</div>
+                    <div class="detail-section-body">
+                        <div class="info-grid" id="info-grid">
+                            <div class="info-item"><div class="label">Matrícula</div><div class="value" id="d-matricula">-</div></div>
+                            <div class="info-item"><div class="label">Nombre</div><div class="value" id="d-nombre">-</div></div>
+                            <div class="info-item"><div class="label">Fecha Nacimiento</div><div class="value" id="d-fecha-nac">-</div></div>
+                            <div class="info-item"><div class="label">Fecha Ingreso</div><div class="value" id="d-fecha-ing">-</div></div>
+                            <div class="info-item"><div class="label">Fecha Baja</div><div class="value" id="d-fecha-baja">-</div></div>
+                            <div class="info-item"><div class="label">Pagador</div><div class="value" id="d-pagador">-</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-header">
+                        👤 Personas Autorizadas
+                        <span class="badge badge-active" id="count-autorizados">0</span>
+                    </div>
+                    <div class="detail-section-body">
+                        <div id="lista-autorizados"></div>
+                        <div style="margin-top:10px">
+                            <button class="btn btn-success btn-sm" onclick="abrirModalPersona()" title="Crear nueva persona">+ Nueva Persona Autorizada</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-header">
+                        ⚠️ Alergias
+                        <span class="badge badge-active" id="count-alergias">0</span>
+                    </div>
+                    <div class="detail-section-body">
+                        <div id="lista-alergias" class="person-list">
+                            <div class="empty" style="padding:8px 0">Cargando...</div>
+                        </div>
+                        <div class="add-form">
+                            <select id="sel-alergia"><option value="">Seleccionar ingrediente</option></select>
+                            <button class="btn btn-primary btn-sm" onclick="agregarAlergia()">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div class="modal-overlay" id="modal-persona" onclick="if(event.target===this)cerrarModalPersona()">
+        <div class="modal">
+            <h3 id="modal-persona-title">Nueva Persona Autorizada</h3>
+            <div class="fg">
+                <label>DNI</label>
+                <input type="text" id="mp-dni" placeholder="Ej: 12345678A">
+            </div>
+            <div class="fg">
+                <label>Nombre Completo</label>
+                <input type="text" id="mp-nombre" placeholder="Ej: María García López">
+            </div>
+            <div class="fg">
+                <label>Dirección</label>
+                <input type="text" id="mp-direccion" placeholder="Ej: Calle Mayor 123">
+            </div>
+            <div class="fg">
+                <label>Teléfono 1</label>
+                <input type="text" id="mp-tel1" placeholder="Ej: 600111222">
+            </div>
+            <div class="fg">
+                <label>Teléfono 2 (opcional)</label>
+                <input type="text" id="mp-tel2" placeholder="Ej: 900888777">
+            </div>
+            <div class="fg">
+                <label>Relación con el niño</label>
+                <input type="text" id="mp-relacion" placeholder="Ej: Madre, Padre, Tío...">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="cerrarModalPersona()">Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarModalPersona()">Guardar y Asignar</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.35); z-index: 1000;
+            align-items: center; justify-content: center;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: #FFFFFF; border-radius: 16px; padding: 28px; width: 100%;
+            max-width: 420px; margin: 20px; max-height: 90vh; overflow-y: auto;
+        }
+        .modal h3 { color: #5D4037; font-size: 18px; margin-bottom: 18px; }
+        .modal .fg { margin-bottom: 14px; }
+        .modal .fg label { display: block; font-size: 13px; color: #8A7A6E; margin-bottom: 4px; }
+        .modal .fg input, .modal .fg select {
+            width: 100%; padding: 11px 14px; border: 2px solid #F0E0D4; border-radius: 8px;
+            font-size: 13px; background: #FFFCF8; color: #5D4037; outline: none;
+        }
+        .modal .fg input:focus { border-color: #E8A87C; }
+        .modal .modal-actions { display: flex; gap: 10px; margin-top: 18px; justify-content: end; }
+    </style>
+
     <script>
         const token = localStorage.getItem('token');
         if (!token) window.location.href = '/login';
+
+        let selectedMatricula = null;
+        let todosAutorizados = [];
+        let todosIngredientes = [];
+
+        async function apiFetch(path, opts = {}) {
+            opts.headers = { ...opts.headers, 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' };
+            const res = await fetch(path, opts);
+            if (!res.ok) {
+                let detail = 'Error del servidor';
+                try { const j = await res.json(); detail = j.detail || JSON.stringify(j); } catch (_) {}
+                throw new Error(detail);
+            }
+            return res;
+        }
+
+        function escAttr(val) {
+            return String(val).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function alerta(msg, tipo) {
+            const el = document.getElementById('alert-msg');
+            el.textContent = msg;
+            el.className = 'alert alert-' + tipo;
+            setTimeout(function() { el.className = 'alert'; }, 4000);
+        }
+
+        // ---- Carga de listas auxiliares ----
+        async function cargarDatosAuxiliares() {
+            try {
+                const [rAut, rIng] = await Promise.all([
+                    apiFetch('/personas-autorizadas/'),
+                    apiFetch('/ingredientes/')
+                ]);
+                todosAutorizados = await rAut.json();
+                todosIngredientes = await rIng.json();
+            } catch (e) {
+                todosAutorizados = [];
+                todosIngredientes = [];
+            }
+        }
+
+        // ---- Tabla de niños ----
+        async function cargarNinos() {
+            const tbody = document.getElementById('tabla-body');
+            try {
+                const res = await apiFetch('/ninos/');
+                const ninos = await res.json();
+                document.getElementById('count-info').textContent = ninos.length + ' niño(s) registrado(s)';
+                if (ninos.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="icon">📋</div><p>No hay niños matriculados actualmente</p><p style="font-size:13px;margin-top:8px">Haz clic en "Registrar Nuevo Niño" para agregar el primero</p></div></td></tr>';
+                    return;
+                }
+                tbody.innerHTML = ninos.map(function(n) {
+                    var activo = !n.fecha_baja;
+                    var selAttr = (selectedMatricula === n.matricula_id) ? ' row-selected' : '';
+                    return '<tr class="row-clickable' + selAttr + '" onclick="seleccionarNino(' + n.matricula_id + ')">' +
+                        '<td>' + n.matricula_id + '</td>' +
+                        '<td><strong>' + escAttr(n.nombre) + '</strong></td>' +
+                        '<td>' + n.fecha_nacimiento + '</td>' +
+                        '<td>' + n.fecha_ingreso + '</td>' +
+                        '<td><span class="badge ' + (activo ? 'badge-active' : 'badge-inactive') + '">' + (activo ? 'Activo' : 'Dado de baja') + '</span></td>' +
+                    '</tr>';
+                }).join('');
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><div class="icon">❌</div><p>Error al cargar datos</p></div></td></tr>';
+            }
+        }
+
+        // ---- Detalle ----
+        function limpiarDetalle() {
+            document.getElementById('d-matricula').textContent = '-';
+            document.getElementById('d-nombre').textContent = '-';
+            document.getElementById('d-fecha-nac').textContent = '-';
+            document.getElementById('d-fecha-ing').textContent = '-';
+            document.getElementById('d-fecha-baja').textContent = '-';
+            document.getElementById('d-pagador').textContent = '-';
+            document.getElementById('lista-autorizados').innerHTML = '<div class="empty" style="padding:8px 0">Sin datos</div>';
+            document.getElementById('lista-alergias').innerHTML = '<div class="empty" style="padding:8px 0">Sin datos</div>';
+            document.getElementById('count-autorizados').textContent = '0';
+            document.getElementById('count-alergias').textContent = '0';
+        }
+
+        function seleccionarNino(matriculaId) {
+            selectedMatricula = matriculaId;
+            document.getElementById('layout-left').className = 'layout-left narrow';
+            document.getElementById('layout-right').classList.add('visible');
+            limpiarDetalle();
+
+            var rows = document.querySelectorAll('#tabla-body .row-clickable');
+            for (var i = 0; i < rows.length; i++) {
+                rows[i].classList.remove('row-selected');
+            }
+            var selRow = document.querySelector('#tabla-body .row-clickable[onclick*="' + matriculaId + '"]');
+            if (selRow) selRow.classList.add('row-selected');
+
+            cargarDetalle(matriculaId);
+        }
+
+        function cerrarDetalle() {
+            selectedMatricula = null;
+            document.getElementById('layout-left').className = 'layout-left wide';
+            document.getElementById('layout-right').classList.remove('visible');
+
+            var rows = document.querySelectorAll('#tabla-body .row-clickable');
+            for (var i = 0; i < rows.length; i++) {
+                rows[i].classList.remove('row-selected');
+            }
+        }
+
+        async function cargarDetalle(matriculaId) {
+            try {
+                const [resNino, resAutorizados, resAlergias] = await Promise.all([
+                    apiFetch('/ninos/' + matriculaId),
+                    apiFetch('/ninos/' + matriculaId + '/autorizados'),
+                    apiFetch('/alergias/' + matriculaId)
+                ]);
+
+                const nino = await resNino.json();
+                const autorizados = await resAutorizados.json();
+                const alergias = await resAlergias.json();
+
+                document.getElementById('d-matricula').textContent = nino.matricula_id;
+                document.getElementById('d-nombre').textContent = nino.nombre;
+                document.getElementById('d-fecha-nac').textContent = nino.fecha_nacimiento;
+                document.getElementById('d-fecha-ing').textContent = nino.fecha_ingreso;
+                document.getElementById('d-fecha-baja').textContent = nino.fecha_baja || '—';
+                document.getElementById('d-pagador').textContent = 'Cargando...';
+
+                apiFetch('/pagadores/' + nino.pagador_dni).then(function(r) {
+                    return r.json();
+                }).then(function(p) {
+                    document.getElementById('d-pagador').textContent = p.nombre + ' (DNI: ' + p.dni + ')';
+                }).catch(function() {
+                    document.getElementById('d-pagador').textContent = nino.pagador_dni;
+                });
+
+                renderizarAutorizados(autorizados);
+                renderizarAlergias(alergias);
+                rellenarSelectsAlergias(alergias);
+
+            } catch (e) {
+                alerta('Error al cargar detalle: ' + e.message, 'error');
+            }
+        }
+
+        function renderizarAutorizados(autorizados) {
+            var container = document.getElementById('lista-autorizados');
+            document.getElementById('count-autorizados').textContent = autorizados.length;
+            if (autorizados.length === 0) {
+                container.innerHTML = '<div class="empty" style="padding:8px 0">No hay personas autorizadas</div>';
+                return;
+            }
+            container.innerHTML = autorizados.map(function(a) {
+                var d = escAttr(a.dni);
+                var n = escAttr(a.nombre);
+                var dir = escAttr(a.direccion);
+                var t1 = escAttr(a.telefono1);
+                var t2 = a.telefono2 ? escAttr(a.telefono2) : '—';
+                var rel = escAttr(a.relacion);
+                return '<div class="person-card">' +
+                    '<span class="remove-btn" onclick="quitarAutorizado(' + selectedMatricula + ',\'' + d + '\')" title="Eliminar">✕</span>' +
+                    '<div class="pgrid">' +
+                    '<span class="plabel">DNI:</span><span class="pvalue">' + d + '</span>' +
+                    '<span class="plabel">Nombre:</span><span class="pvalue">' + n + '</span>' +
+                    '<span class="plabel">Dirección:</span><span class="pvalue">' + dir + '</span>' +
+                    '<span class="plabel">Teléfono 1:</span><span class="pvalue">' + t1 + '</span>' +
+                    '<span class="plabel">Teléfono 2:</span><span class="pvalue">' + t2 + '</span>' +
+                    '<span class="plabel">Relación:</span><span class="pvalue">' + rel + '</span>' +
+                    '</div></div>';
+            }).join('');
+        }
+
+        function renderizarAlergias(alergias) {
+            var container = document.getElementById('lista-alergias');
+            document.getElementById('count-alergias').textContent = alergias.length;
+            if (alergias.length === 0) {
+                container.innerHTML = '<div class="empty" style="padding:8px 0">No tiene alergias registradas</div>';
+                return;
+            }
+            container.innerHTML = alergias.map(function(a) {
+                var ing = escAttr(a.ingrediente_nombre);
+                return '<span class="person-item">⚠️ ' + a.ingrediente_nombre +
+                    ' <span class="remove" onclick="quitarAlergia(' + selectedMatricula + ',\'' + ing + '\')" title="Eliminar">✕</span></span>';
+            }).join('');
+        }
+
+        function rellenarSelectsAlergias(alergias) {
+            var nombresAl = {};
+            for (var i = 0; i < alergias.length; i++) {
+                nombresAl[alergias[i].ingrediente_nombre] = true;
+            }
+            var selAl = document.getElementById('sel-alergia');
+            selAl.innerHTML = '<option value="">Seleccionar ingrediente</option>';
+            for (var i = 0; i < todosIngredientes.length; i++) {
+                var ing = todosIngredientes[i];
+                if (!nombresAl[ing.nombre]) {
+                    selAl.innerHTML += '<option value="' + escAttr(ing.nombre) + '">' + escAttr(ing.nombre) + '</option>';
+                }
+            }
+        }
+
+        // ---- Acciones ----
+        async function quitarAutorizado(matriculaId, dni) {
+            if (!confirm('¿Eliminar esta persona autorizada?')) return;
+            try {
+                await apiFetch('/ninos/' + matriculaId + '/autorizados/' + encodeURIComponent(dni), { method: 'DELETE' });
+                alerta('Persona autorizada removida', 'success');
+                cargarDetalle(selectedMatricula);
+            } catch (e) {
+                alerta('Error: ' + e.message, 'error');
+            }
+        }
+
+        async function agregarAlergia() {
+            if (!selectedMatricula) return;
+            var sel = document.getElementById('sel-alergia');
+            var ing = sel.value;
+            if (!ing) { alerta('Selecciona un ingrediente', 'error'); return; }
+            try {
+                await apiFetch('/alergias/', {
+                    method: 'POST',
+                    body: JSON.stringify({ nino_matricula: selectedMatricula, ingrediente_nombre: ing })
+                });
+                alerta('Alergia registrada', 'success');
+                cargarDetalle(selectedMatricula);
+            } catch (e) {
+                alerta('Error: ' + e.message, 'error');
+            }
+        }
+
+        async function quitarAlergia(matriculaId, ingrediente) {
+            if (!confirm('¿Eliminar esta alergia?')) return;
+            try {
+                await apiFetch('/alergias/' + matriculaId + '/' + encodeURIComponent(ingrediente), { method: 'DELETE' });
+                alerta('Alergia eliminada', 'success');
+                cargarDetalle(selectedMatricula);
+            } catch (e) {
+                alerta('Error: ' + e.message, 'error');
+            }
+        }
+
+        // ---- Modal Nueva Persona Autorizada ----
+        function abrirModalPersona() {
+            document.getElementById('mp-dni').value = '';
+            document.getElementById('mp-nombre').value = '';
+            document.getElementById('mp-direccion').value = '';
+            document.getElementById('mp-tel1').value = '';
+            document.getElementById('mp-tel2').value = '';
+            document.getElementById('mp-relacion').value = '';
+            document.getElementById('modal-persona').classList.add('show');
+            setTimeout(function() { document.getElementById('mp-dni').focus(); }, 100);
+        }
+
+        function cerrarModalPersona() {
+            document.getElementById('modal-persona').classList.remove('show');
+        }
+
+        async function guardarModalPersona() {
+            var dni = document.getElementById('mp-dni').value.trim();
+            var nombre = document.getElementById('mp-nombre').value.trim();
+            var direccion = document.getElementById('mp-direccion').value.trim();
+            var tel1 = document.getElementById('mp-tel1').value.trim();
+            var tel2 = document.getElementById('mp-tel2').value.trim();
+            var relacion = document.getElementById('mp-relacion').value.trim();
+
+            if (!dni || !nombre || !direccion || !tel1 || !relacion) {
+                alerta('Completa todos los campos obligatorios', 'error');
+                return;
+            }
+            if (!selectedMatricula) {
+                alerta('Selecciona un niño primero', 'error');
+                return;
+            }
+
+            try {
+                await apiFetch('/personas-autorizadas/', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        dni: dni,
+                        nombre: nombre,
+                        direccion: direccion,
+                        telefono1: tel1,
+                        telefono2: tel2 || null,
+                        relacion: relacion
+                    })
+                });
+
+                await apiFetch('/ninos/' + selectedMatricula + '/autorizados', {
+                    method: 'POST',
+                    body: JSON.stringify({ nino_matricula: selectedMatricula, autorizado_dni: dni })
+                });
+
+                cerrarModalPersona();
+                alerta('Persona autorizada creada y asignada', 'success');
+
+                await cargarDatosAuxiliares();
+                cargarDetalle(selectedMatricula);
+            } catch (e) {
+                alerta('Error: ' + e.message, 'error');
+            }
+        }
+
+        // ---- Init ----
+        Promise.all([cargarDatosAuxiliares(), cargarNinos()]).catch(function(e) {
+            console.error(e);
+        });
     </script>
 </body>
 </html>

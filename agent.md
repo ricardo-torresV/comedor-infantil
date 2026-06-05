@@ -40,8 +40,9 @@
 - **MCP**: Model Context Protocol para conexión con BD
 
 
+
 ## Estado de Implementacion
-*Actualizado: 2026-06-03*
+*Actualizado: 2026-06-05*
 
 - [OK] **Niños (Matrícula)**
 - [OK] **Personas Autorizadas para Recoger**

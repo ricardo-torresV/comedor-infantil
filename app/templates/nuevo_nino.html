@@ -82,11 +82,62 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            justify-content: center;
         }
-        .btn-primary { background: #E8916A; color: #FFFFFF; flex: 1; justify-content: center; }
+        .btn-primary { background: #E8916A; color: #FFFFFF; flex: 1; }
         .btn-primary:hover { background: #D47B55; }
         .btn-secondary { background: #F0E0D4; color: #5D4037; }
         .btn-secondary:hover { background: #E5D0C0; }
+        .btn-link {
+            background: transparent;
+            color: #E8916A;
+            padding: 6px 0;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .btn-link:hover { color: #D47B55; }
+        .alert {
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .alert-error { background: #FFF0EC; color: #C0392B; border: 1px solid #F5D0C8; display: block; }
+        .alert-success { background: #F0F8E0; color: #5B8C3E; border: 1px solid #D4E8B8; display: block; }
+        .alert-info { background: #FFF8F0; color: #B8957A; border: 1px solid #F0E0D4; display: block; }
+        .pagador-section { margin-bottom: 20px; }
+        .pagador-select-row {
+            display: flex;
+            gap: 8px;
+            align-items: end;
+        }
+        .pagador-select-row .form-group { flex: 1; margin-bottom: 0; }
+        .inline-form {
+            display: none;
+            background: #FFF8F0;
+            border: 1px solid #F0E0D4;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 12px;
+        }
+        .inline-form.show { display: block; }
+        .inline-form .form-row { margin-bottom: 14px; }
+        .inline-form .form-group { margin-bottom: 0; }
+        .inline-form .form-group input { background: #FFFFFF; }
+        .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 3px solid #FFE0D0;
+            border-top: 3px solid #E8916A;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -97,8 +148,9 @@
     <div class="container">
         <div class="header">
             <h1>➕ Registrar Nuevo Niño</h1>
-            <p>Completa los datos del niño para matricutarlo en la guardería</p>
+            <p>Completa los datos para matricular al niño en la guardería</p>
         </div>
+        <div id="alert-msg" class="alert"></div>
         <div class="form-card">
             <form id="form-nino">
                 <div class="form-row">
@@ -120,15 +172,53 @@
                         <label>Fecha de Ingreso</label>
                         <input type="date" id="fecha_ingreso" required>
                     </div>
-                    <div class="form-group">
-                        <label>Pagador (DNI)</label>
-                        <input type="text" id="pagador_dni" placeholder="DNI del pagador" required>
+                </div>
+
+                <div class="pagador-section">
+                    <label>Pagador</label>
+                    <div class="pagador-select-row">
+                        <div class="form-group">
+                            <select id="pagador_dni" required>
+                                <option value="">Selecciona un pagador...</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-link" id="btn-nuevo-pagador" onclick="togglePagadorForm()">+ Nuevo</button>
                     </div>
                 </div>
+
+                <div class="inline-form" id="pagador-form">
+                    <div class="form-row">
+                        <div class="form-group" style="flex:0.6">
+                            <label>DNI</label>
+                            <input type="text" id="pag-dni" placeholder="DNI">
+                        </div>
+                        <div class="form-group" style="flex:1">
+                            <label>Nombre</label>
+                            <input type="text" id="pag-nombre" placeholder="Nombre completo">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <input type="text" id="pag-direccion" placeholder="Dirección">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="text" id="pag-telefono" placeholder="Teléfono">
+                        </div>
+                        <div class="form-group">
+                            <label>Cuenta Corriente</label>
+                            <input type="text" id="pag-cuenta" placeholder="ES0000000000">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="guardarPagador()" style="margin-top:8px">Guardar Pagador</button>
+                </div>
+
                 <div class="actions">
                     <a href="/lista-ninos" class="btn btn-secondary">Cancelar</a>
                     <button type="submit" class="btn btn-primary">💾 Guardar Niño</button>
                 </div>
+                <div class="spinner" id="spinner"></div>
             </form>
         </div>
     </div>
@@ -136,8 +226,85 @@
         const token = localStorage.getItem('token');
         if (!token) window.location.href = '/login';
 
+        const API = (path, opts = {}) => {
+            opts.headers = { ...opts.headers, 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+            return fetch(path, opts);
+        };
+
+        function alertMsg(msg, type) {
+            const el = document.getElementById('alert-msg');
+            el.textContent = msg;
+            el.className = `alert alert-${type}`;
+        }
+
+        async function cargarPagadores() {
+            try {
+                const res = await API('/pagadores/');
+                if (!res.ok) return;
+                const pagadores = await res.json();
+                const sel = document.getElementById('pagador_dni');
+                sel.innerHTML = '<option value="">Selecciona un pagador...</option>';
+                pagadores.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = p.dni;
+                    opt.textContent = `${p.nombre} (${p.dni})`;
+                    sel.appendChild(opt);
+                });
+                if (pagadores.length === 0) {
+                    sel.innerHTML = '<option value="">No hay pagadores registrados</option>';
+                    alertMsg('No hay pagadores registrados. Crea uno antes de matricular al niño.', 'info');
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function togglePagadorForm() {
+            const f = document.getElementById('pagador-form');
+            f.classList.toggle('show');
+        }
+
+        async function guardarPagador() {
+            const data = {
+                dni: document.getElementById('pag-dni').value,
+                nombre: document.getElementById('pag-nombre').value,
+                direccion: document.getElementById('pag-direccion').value,
+                telefono: document.getElementById('pag-telefono').value,
+                cuenta_corriente: document.getElementById('pag-cuenta').value,
+            };
+            if (!data.dni || !data.nombre || !data.direccion || !data.telefono || !data.cuenta_corriente) {
+                alertMsg('Completa todos los campos del pagador', 'error');
+                return;
+            }
+            try {
+                const res = await API('/pagadores/', { method: 'POST', body: JSON.stringify(data) });
+                if (res.ok) {
+                    alertMsg('Pagador creado correctamente', 'success');
+                    document.getElementById('pagador-form').classList.remove('show');
+                    document.getElementById('pag-dni').value = '';
+                    document.getElementById('pag-nombre').value = '';
+                    document.getElementById('pag-direccion').value = '';
+                    document.getElementById('pag-telefono').value = '';
+                    document.getElementById('pag-cuenta').value = '';
+                    await cargarPagadores();
+                    document.getElementById('pagador_dni').value = data.dni;
+                } else {
+                    const err = await res.json();
+                    alertMsg('Error: ' + (err.detail || 'No se pudo crear el pagador'), 'error');
+                }
+            } catch (e) {
+                alertMsg('Error de conexión', 'error');
+            }
+        }
+
         document.getElementById('form-nino').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const spinner = document.getElementById('spinner');
+            submitBtn.disabled = true;
+            submitBtn.style.display = 'none';
+            spinner.style.display = 'block';
+
             const data = {
                 matricula_id: parseInt(document.getElementById('matricula_id').value),
                 nombre: document.getElementById('nombre').value,
@@ -146,24 +313,22 @@
                 pagador_dni: document.getElementById('pagador_dni').value,
             };
             try {
-                const res = await fetch('/ninos/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
-                    body: JSON.stringify(data),
-                });
+                const res = await API('/ninos/', { method: 'POST', body: JSON.stringify(data) });
                 if (res.ok) {
                     window.location.href = '/lista-ninos';
                 } else {
                     const err = await res.json();
-                    alert('Error: ' + (err.detail || 'No se pudo registrar el niño'));
+                    alertMsg('Error: ' + (err.detail || 'No se pudo registrar el niño'), 'error');
                 }
-            } catch (err) {
-                alert('Error de conexión con el servidor');
+            } catch (e) {
+                alertMsg('Error de conexión con el servidor', 'error');
             }
+            submitBtn.disabled = false;
+            submitBtn.style.display = 'block';
+            spinner.style.display = 'none';
         });
+
+        cargarPagadores();
     </script>
 </body>
 </html>

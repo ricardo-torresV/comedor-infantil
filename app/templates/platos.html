@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comedor Infantil - Platos Disponibles</title>
+    <title>Comedor Infantil - Gestión de Platos</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -21,55 +21,119 @@
             box-shadow: 0 2px 10px rgba(200, 120, 80, 0.2);
         }
         nav h2 { font-size: 20px; font-weight: 600; }
-        nav a {
-            color: #FFFFFF;
-            text-decoration: none;
-            font-size: 14px;
-            opacity: 0.9;
-        }
+        nav a { color: #FFFFFF; text-decoration: none; font-size: 14px; opacity: 0.9; }
         nav a:hover { opacity: 1; text-decoration: underline; }
-        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
-        .header { margin-bottom: 25px; }
+        .container { max-width: 960px; margin: 30px auto; padding: 0 20px; }
+        .header { margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
         .header h1 { color: #D47B55; font-size: 24px; }
         .header p { color: #B8957A; font-size: 14px; margin-top: 4px; }
-        .sections { display: flex; flex-direction: column; gap: 20px; }
-        .section {
+
+        .card {
             background: #FFFFFF;
             border-radius: 14px;
             border: 1px solid #F0E0D4;
+            margin-bottom: 20px;
             overflow: hidden;
         }
-        .section-title {
+        .card-header {
             background: #FDF0E8;
             padding: 16px 24px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #5D4037;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             border-bottom: 1px solid #F0E0D4;
         }
-        .section table { width: 100%; border-collapse: collapse; }
-        .section th {
-            padding: 12px 24px;
-            text-align: left;
-            font-size: 13px;
-            font-weight: 600;
-            color: #8A7A6E;
-            background: #FFF8F0;
-            border-bottom: 1px solid #F0E0D4;
+        .card-header h3 { font-size: 16px; font-weight: 600; color: #5D4037; }
+        .card-body { padding: 16px 24px; }
+
+        .btn {
+            padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;
+            border: none; cursor: pointer; transition: 0.3s;
+            display: inline-flex; align-items: center; gap: 6px;
+            text-decoration: none;
         }
-        .section td {
-            padding: 12px 24px;
-            border-bottom: 1px solid #F5EDE6;
-            font-size: 14px;
+        .btn-primary { background: #E8916A; color: #FFFFFF; }
+        .btn-primary:hover { background: #D47B55; }
+        .btn-sm { padding: 5px 12px; font-size: 12px; }
+        .btn-success { background: #8FBC6B; color: #FFFFFF; }
+        .btn-success:hover { background: #7AA85A; }
+        .btn-danger { background: #E88A7A; color: #FFFFFF; }
+        .btn-danger:hover { background: #D47060; }
+        .btn-warning { background: #F0C060; color: #FFFFFF; }
+        .btn-warning:hover { background: #E0B050; }
+        .btn-outline { background: transparent; color: #E8916A; border: 1px solid #E8916A; }
+        .btn-outline:hover { background: #FFF5EE; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            padding: 10px 14px; text-align: left; font-size: 13px; font-weight: 600;
+            color: #8A7A6E; border-bottom: 1px solid #F0E0D4;
         }
-        .section tr:last-child td { border-bottom: none; }
+        td { padding: 10px 14px; border-bottom: 1px solid #F5EDE6; font-size: 14px; vertical-align: middle; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #FFF9F4; }
+        .actions-cell { white-space: nowrap; text-align: right; }
+
+        .badge {
+            display: inline-block; padding: 2px 10px; border-radius: 12px;
+            font-size: 12px; font-weight: 500; margin: 1px 2px;
+            background: #FFF0E4; color: #B08060;
+        }
         .empty {
-            text-align: center;
-            padding: 50px 20px;
-            color: #B8957A;
+            text-align: center; padding: 30px 20px; color: #B8957A;
         }
-        .empty .icon { font-size: 48px; margin-bottom: 10px; }
+        .empty .icon { font-size: 36px; margin-bottom: 8px; }
         .empty p { font-size: 14px; }
+
+        .card-body { padding: 0; }
+        .card-body .scroll-wrap {
+            max-height: 368px;
+            overflow-y: auto;
+            border-radius: 0 0 14px 14px;
+        }
+        .card-body .scroll-wrap::-webkit-scrollbar { width: 6px; }
+        .card-body .scroll-wrap::-webkit-scrollbar-thumb { background: #E0D0C4; border-radius: 3px; }
+        .card-body .scroll-wrap::-webkit-scrollbar-thumb:hover { background: #D0C0B0; }
+        .card-body table { border-collapse: separate; }
+        .card-body table thead { position: sticky; top: 0; z-index: 1; }
+        .card-body table thead th { background: #FFF8F0; }
+
+        .ingredient-list { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+        .ingredient-list .badge { cursor: pointer; transition: 0.2s; }
+        .ingredient-list .badge:hover { background: #E8D0C0; }
+        .add-ingredient-form { display: inline-flex; gap: 4px; margin-left: 4px; }
+        .add-ingredient-form select {
+            padding: 3px 8px; border: 1px solid #F0E0D4; border-radius: 6px;
+            font-size: 12px; background: #FFFCF8; color: #5D4037; outline: none;
+        }
+        .add-ingredient-form .btn { padding: 3px 10px; font-size: 11px; }
+
+        .alert {
+            padding: 12px 16px; border-radius: 10px; font-size: 13px; margin-bottom: 14px;
+            display: none;
+        }
+        .alert-error { background: #FFF0EC; color: #C0392B; border: 1px solid #F5D0C8; display: block; }
+        .alert-success { background: #F0F8E0; color: #5B8C3E; border: 1px solid #D4E8B8; display: block; }
+
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.35); z-index: 1000;
+            align-items: center; justify-content: center;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: #FFFFFF; border-radius: 16px; padding: 28px; width: 100%;
+            max-width: 420px; margin: 20px;
+        }
+        .modal h3 { color: #5D4037; font-size: 18px; margin-bottom: 18px; }
+        .modal .fg { margin-bottom: 14px; }
+        .modal .fg label { display: block; font-size: 13px; color: #8A7A6E; margin-bottom: 4px; }
+        .modal .fg input, .modal .fg select {
+            width: 100%; padding: 11px 14px; border: 2px solid #F0E0D4; border-radius: 8px;
+            font-size: 13px; background: #FFFCF8; color: #5D4037; outline: none;
+        }
+        .modal .fg input:focus { border-color: #E8A87C; }
+        .modal .modal-actions { display: flex; gap: 10px; margin-top: 18px; justify-content: end; }
     </style>
 </head>
 <body>
@@ -79,48 +143,373 @@
     </nav>
     <div class="container">
         <div class="header">
-            <h1>🍽️ Platos Disponibles</h1>
-            <p>Administración de platos, ingredientes y menús del comedor</p>
+            <div>
+                <h1>🍽️ Gestión de Platos y Menús</h1>
+                <p>Administra ingredientes, platos y menús del comedor</p>
+            </div>
         </div>
-        <div class="sections">
-            <div class="section">
-                <div class="section-title">🥘 Platos</div>
-                <table>
-                    <thead>
-                        <tr><th>Nombre del Plato</th><th>Ingredientes</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td colspan="2"><div class="empty"><div class="icon">🥗</div><p>No hay platos registrados</p></div></td></tr>
-                    </tbody>
-                </table>
+        <div id="alert-msg" class="alert"></div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>🥦 Ingredientes</h3>
+                <button class="btn btn-success btn-sm" onclick="abrirModal('ingrediente')">+ Nuevo Ingrediente</button>
             </div>
-            <div class="section">
-                <div class="section-title">🥦 Ingredientes</div>
-                <table>
-                    <thead>
-                        <tr><th>Nombre del Ingrediente</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><div class="empty"><div class="icon">🧅</div><p>No hay ingredientes registrados</p></div></td></tr>
-                    </tbody>
-                </table>
+            <div class="card-body">
+                <div class="scroll-wrap">
+                    <table>
+                        <thead><tr><th>Nombre</th><th class="actions-cell">Acciones</th></tr></thead>
+                        <tbody id="tabla-ingredientes">
+                            <tr><td colspan="2"><div class="empty"><div class="icon">🧅</div><p>Cargando...</p></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="section">
-                <div class="section-title">📋 Menús</div>
-                <table>
-                    <thead>
-                        <tr><th>Número de Menú</th><th>Platos Asignados</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td colspan="2"><div class="empty"><div class="icon">📄</div><p>No hay menús registrados</p></div></td></tr>
-                    </tbody>
-                </table>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>🥘 Platos</h3>
+                <button class="btn btn-success btn-sm" onclick="abrirModal('plato')">+ Nuevo Plato</button>
+            </div>
+            <div class="card-body">
+                <div class="scroll-wrap">
+                    <table>
+                        <thead><tr><th>Nombre del Plato</th><th>Ingredientes</th><th class="actions-cell">Acciones</th></tr></thead>
+                        <tbody id="tabla-platos">
+                            <tr><td colspan="3"><div class="empty"><div class="icon">🥗</div><p>Cargando...</p></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>📋 Menús</h3>
+                <button class="btn btn-success btn-sm" onclick="abrirModal('menu')">+ Nuevo Menú</button>
+            </div>
+            <div class="card-body">
+                <div class="scroll-wrap">
+                    <table>
+                        <thead><tr><th>Número de Menú</th><th>Platos</th><th class="actions-cell">Acciones</th></tr></thead>
+                        <tbody id="tabla-menus">
+                            <tr><td colspan="3"><div class="empty"><div class="icon">📄</div><p>Cargando...</p></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+
+    <div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)cerrarModal()">
+        <div class="modal">
+            <h3 id="modal-title">Nuevo</h3>
+            <div id="modal-body"></div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="cerrarModal()">Cancelar</button>
+                <button class="btn btn-primary" id="modal-save" onclick="guardarModal()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const token = localStorage.getItem('token');
         if (!token) window.location.href = '/login';
+
+        async function apiFetch(path, opts = {}) {
+            opts.headers = { ...opts.headers, 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+            const res = await fetch(path, opts);
+            if (!res.ok) {
+                let detail = 'Error del servidor';
+                try { const j = await res.json(); detail = j.detail || JSON.stringify(j); } catch (_) {}
+                throw new Error(detail);
+            }
+            return res;
+        }
+
+        function escAttr(val) {
+            return String(val).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        function alerta(msg, tipo) {
+            const el = document.getElementById('alert-msg');
+            el.textContent = msg;
+            el.className = 'alert alert-' + tipo;
+            setTimeout(() => el.className = 'alert', 4000);
+        }
+
+        // ---- Modal ----
+        let modalTipo = '';
+        let modalClave = null;
+
+        function abrirModal(tipo, claveEditar, valorEditar) {
+            modalTipo = tipo;
+            modalClave = claveEditar != null ? claveEditar : null;
+            const titulo = document.getElementById('modal-title');
+            const btn = document.getElementById('modal-save');
+
+            if (claveEditar != null) {
+                const labels = { ingrediente: 'Ingrediente', plato: 'Plato', menu: 'Menú' };
+                titulo.textContent = 'Editar ' + (labels[tipo] || '');
+                btn.textContent = 'Guardar Cambios';
+            } else {
+                const labels = { ingrediente: 'Ingrediente', plato: 'Plato', menu: 'Menú' };
+                titulo.textContent = 'Nuevo ' + (labels[tipo] || '');
+                btn.textContent = 'Guardar';
+            }
+
+            let html = '';
+            const v = escAttr(valorEditar || '');
+            if (tipo === 'ingrediente') {
+                html = '<div class="fg"><label>Nombre del Ingrediente</label><input type="text" id="modal-input" value="' + v + '" placeholder="Ej: Tomate"></div>';
+            } else if (tipo === 'plato') {
+                html = '<div class="fg"><label>Nombre del Plato</label><input type="text" id="modal-input" value="' + v + '" placeholder="Ej: Ensalada de pasta"></div>';
+            } else if (tipo === 'menu') {
+                html = '<div class="fg"><label>Número de Menú</label><input type="number" id="modal-input" value="' + v + '" placeholder="Ej: 1"></div>';
+            }
+            document.getElementById('modal-body').innerHTML = html;
+            document.getElementById('modal-overlay').classList.add('show');
+            document.getElementById('modal-input').focus();
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal-overlay').classList.remove('show');
+            modalClave = null;
+        }
+
+        async function guardarModal() {
+            const val = document.getElementById('modal-input').value.trim();
+            if (!val) { alerta('Completa el campo', 'error'); return; }
+
+            try {
+                if (modalTipo === 'ingrediente') {
+                    if (modalClave != null) {
+                        await apiFetch('/ingredientes/' + encodeURIComponent(modalClave), { method: 'PUT', body: JSON.stringify({ nombre: val }) });
+                    } else {
+                        await apiFetch('/ingredientes/', { method: 'POST', body: JSON.stringify({ nombre: val }) });
+                    }
+                } else if (modalTipo === 'plato') {
+                    if (modalClave != null) {
+                        await apiFetch('/platos/' + encodeURIComponent(modalClave), { method: 'PUT', body: JSON.stringify({ nombre: val }) });
+                    } else {
+                        await apiFetch('/platos/', { method: 'POST', body: JSON.stringify({ nombre: val }) });
+                    }
+                } else if (modalTipo === 'menu') {
+                    const num = parseInt(val, 10);
+                    if (isNaN(num)) { alerta('El número debe ser un valor numérico', 'error'); return; }
+                    if (modalClave != null) {
+                        await apiFetch('/menus/' + modalClave, { method: 'PUT', body: JSON.stringify({ numero: num }) });
+                    } else {
+                        await apiFetch('/menus/', { method: 'POST', body: JSON.stringify({ numero: num }) });
+                    }
+                }
+                cerrarModal();
+                alerta('Guardado correctamente', 'success');
+                cargarTodo();
+            } catch (e) {
+                alerta('Error: ' + e.message, 'error');
+            }
+        }
+
+        async function ejecutarApi(url, opts, mensaje) {
+            try {
+                await apiFetch(url, opts);
+                if (mensaje) alerta(mensaje, 'success');
+                cargarTodo();
+            } catch (e) {
+                alerta('Error: ' + e.message, 'error');
+            }
+        }
+
+        function eliminarItem(tipo, clave) {
+            if (!confirm('¿Eliminar ' + tipo + ' "' + clave + '"?')) return;
+            var url;
+            if (tipo === 'ingrediente') url = '/ingredientes/' + encodeURIComponent(clave);
+            else if (tipo === 'plato') url = '/platos/' + encodeURIComponent(clave);
+            else url = '/menus/' + clave;
+            ejecutarApi(url, { method: 'DELETE' }, 'Eliminado correctamente');
+        }
+
+        function agregarIngredienteAPlato(plato, selId) {
+            var sel = document.getElementById(selId);
+            var ing = sel.value;
+            if (!ing) return;
+            ejecutarApi('/platos/' + encodeURIComponent(plato) + '/ingredientes', {
+                method: 'POST',
+                body: JSON.stringify({ plato_nombre: plato, ingrediente_nombre: ing })
+            }, 'Ingrediente asignado');
+        }
+
+        function quitarIngredientePlato(plato, ing) {
+            if (!confirm('¿Quitar "' + ing + '" de "' + plato + '"?')) return;
+            ejecutarApi('/platos/' + encodeURIComponent(plato) + '/ingredientes/' + encodeURIComponent(ing), { method: 'DELETE' });
+        }
+
+        function agregarPlatoAMenu(menu, selId) {
+            var sel = document.getElementById(selId);
+            var plato = sel.value;
+            if (!plato) return;
+            ejecutarApi('/menus/' + menu + '/platos', {
+                method: 'POST',
+                body: JSON.stringify({ menu_numero: menu, plato_nombre: plato })
+            }, 'Plato asignado al menú');
+        }
+
+        function quitarPlatoMenu(menu, plato) {
+            if (!confirm('¿Quitar "' + plato + '" del menú ' + menu + '?')) return;
+            ejecutarApi('/menus/' + menu + '/platos/' + encodeURIComponent(plato), { method: 'DELETE' });
+        }
+
+        // ---- Carga de datos ----
+        async function cargarTodo() {
+            await Promise.all([cargarIngredientes(), cargarPlatos(), cargarMenus()]);
+        }
+
+        async function cargarIngredientes() {
+            var tbody = document.getElementById('tabla-ingredientes');
+            try {
+                var res = await apiFetch('/ingredientes/');
+                var items = await res.json();
+                if (items.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="2"><div class="empty"><div class="icon">🧅</div><p>No hay ingredientes registrados</p></div></td></tr>';
+                    return;
+                }
+                tbody.innerHTML = items.map(function(i) {
+                    var nombre = escAttr(i.nombre);
+                    return '<tr><td><strong>' + nombre + '</strong></td>' +
+                        '<td class="actions-cell">' +
+                        '<button class="btn btn-warning btn-sm" onclick="abrirModal(\'ingrediente\',\'' + nombre + '\',\'' + nombre + '\')">✏️</button> ' +
+                        '<button class="btn btn-danger btn-sm" onclick="eliminarItem(\'ingrediente\',\'' + nombre + '\')">🗑️</button>' +
+                        '</td></tr>';
+                }).join('');
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="2"><div class="empty"><p>Error al cargar</p></div></td></tr>';
+            }
+        }
+
+        async function cargarPlatos() {
+            var tbody = document.getElementById('tabla-platos');
+            try {
+                var resPlatos = await apiFetch('/platos/');
+                var platos = await resPlatos.json();
+                var todosIngredientes = [];
+                try { var ri = await apiFetch('/ingredientes/'); todosIngredientes = await ri.json(); } catch (_) {}
+
+                if (platos.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="3"><div class="empty"><div class="icon">🥗</div><p>No hay platos registrados</p></div></td></tr>';
+                    return;
+                }
+
+                var html = '';
+                for (var idx = 0; idx < platos.length; idx++) {
+                    var p = platos[idx];
+                    var pNombre = escAttr(p.nombre);
+                    var ingsHtml = '';
+                    try {
+                        var ri2 = await apiFetch('/platos/' + encodeURIComponent(p.nombre) + '/ingredientes');
+                        var ings = await ri2.json();
+
+                        for (var i2 = 0; i2 < ings.length; i2++) {
+                            var ingEsc = escAttr(ings[i2]);
+                            ingsHtml += '<span class="badge" onclick="quitarIngredientePlato(\'' + pNombre + '\',\'' + ingEsc + '\')" title="Quitar">' + ings[i2] + ' ✕</span>';
+                        }
+
+                        var disponibles = [];
+                        for (var d = 0; d < todosIngredientes.length; d++) {
+                            if (ings.indexOf(todosIngredientes[d].nombre) === -1) {
+                                disponibles.push(todosIngredientes[d]);
+                            }
+                        }
+
+                        if (disponibles.length > 0) {
+                            var selId = 'ing-sel-' + idx;
+                            var optsHtml = '';
+                            for (var d2 = 0; d2 < disponibles.length; d2++) {
+                                optsHtml += '<option value="' + escAttr(disponibles[d2].nombre) + '">' + disponibles[d2].nombre + '</option>';
+                            }
+                            ingsHtml += '<span class="add-ingredient-form">' +
+                                '<select id="' + selId + '"><option value="">+ agregar</option>' + optsHtml + '</select>' +
+                                '<button class="btn btn-primary btn-sm" onclick="agregarIngredienteAPlato(\'' + pNombre + '\',\'' + selId + '\')">+</button>' +
+                                '</span>';
+                        }
+                    } catch (_) { ingsHtml = '<span class="badge">error</span>'; }
+
+                    html += '<tr>' +
+                        '<td><strong>' + p.nombre + '</strong></td>' +
+                        '<td><div class="ingredient-list">' + (ingsHtml || '<span style="color:#B8957A;font-size:12px">Sin ingredientes</span>') + '</div></td>' +
+                        '<td class="actions-cell">' +
+                        '<button class="btn btn-warning btn-sm" onclick="abrirModal(\'plato\',\'' + pNombre + '\',\'' + pNombre + '\')">✏️</button> ' +
+                        '<button class="btn btn-danger btn-sm" onclick="eliminarItem(\'plato\',\'' + pNombre + '\')">🗑️</button>' +
+                        '</td></tr>';
+                }
+                tbody.innerHTML = html;
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="3"><div class="empty"><p>Error al cargar</p></div></td></tr>';
+            }
+        }
+
+        async function cargarMenus() {
+            var tbody = document.getElementById('tabla-menus');
+            try {
+                var resMenus = await apiFetch('/menus/');
+                var menus = await resMenus.json();
+                var todosPlatos = [];
+                try { var rp = await apiFetch('/platos/'); todosPlatos = await rp.json(); } catch (_) {}
+
+                if (menus.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="3"><div class="empty"><div class="icon">📄</div><p>No hay menús registrados</p></div></td></tr>';
+                    return;
+                }
+
+                var html = '';
+                for (var idx = 0; idx < menus.length; idx++) {
+                    var m = menus[idx];
+                    var platosHtml = '';
+                    try {
+                        var rp2 = await apiFetch('/menus/' + m.numero + '/platos');
+                        var platos = await rp2.json();
+
+                        for (var i2 = 0; i2 < platos.length; i2++) {
+                            var platEsc = escAttr(platos[i2]);
+                            platosHtml += '<span class="badge" onclick="quitarPlatoMenu(' + m.numero + ',\'' + platEsc + '\')" title="Quitar">' + platos[i2] + ' ✕</span>';
+                        }
+
+                        var disponibles = [];
+                        for (var d = 0; d < todosPlatos.length; d++) {
+                            if (platos.indexOf(todosPlatos[d].nombre) === -1) {
+                                disponibles.push(todosPlatos[d]);
+                            }
+                        }
+
+                        if (disponibles.length > 0) {
+                            var selId = 'plat-sel-' + idx;
+                            var optsHtml = '';
+                            for (var d2 = 0; d2 < disponibles.length; d2++) {
+                                optsHtml += '<option value="' + escAttr(disponibles[d2].nombre) + '">' + disponibles[d2].nombre + '</option>';
+                            }
+                            platosHtml += '<span class="add-ingredient-form">' +
+                                '<select id="' + selId + '"><option value="">+ agregar</option>' + optsHtml + '</select>' +
+                                '<button class="btn btn-primary btn-sm" onclick="agregarPlatoAMenu(' + m.numero + ',\'' + selId + '\')">+</button>' +
+                                '</span>';
+                        }
+                    } catch (_) { platosHtml = '<span class="badge">error</span>'; }
+
+                    html += '<tr>' +
+                        '<td><strong>Menú #' + m.numero + '</strong></td>' +
+                        '<td><div class="ingredient-list">' + (platosHtml || '<span style="color:#B8957A;font-size:12px">Sin platos</span>') + '</div></td>' +
+                        '<td class="actions-cell">' +
+                        '<button class="btn btn-warning btn-sm" onclick="abrirModal(\'menu\',' + m.numero + ',' + m.numero + ')">✏️</button> ' +
+                        '<button class="btn btn-danger btn-sm" onclick="eliminarItem(\'menu\',' + m.numero + ')">🗑️</button>' +
+                        '</td></tr>';
+                }
+                tbody.innerHTML = html;
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="3"><div class="empty"><p>Error al cargar</p></div></td></tr>';
+            }
+        }
+
+        cargarTodo();
     </script>
 </body>
 </html>

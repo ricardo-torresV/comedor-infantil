@@ -16,6 +16,16 @@ async def crear_alergia(data: AlergiaCreate, db: AsyncSession = Depends(get_sess
     return {"mensaje": "Alergia registrada correctamente"}
 
 
+@router.delete("/{nino_matricula}/{ingrediente_nombre}", response_model=dict)
+async def eliminar_alergia(
+    nino_matricula: int, ingrediente_nombre: str, db: AsyncSession = Depends(get_session)
+):
+    ok = await crud.delete_alergia(db, nino_matricula, ingrediente_nombre)
+    if not ok:
+        raise HTTPException(404, "La alergia no existe")
+    return {"mensaje": "Alergia eliminada correctamente"}
+
+
 @router.get("/{nino_matricula}", response_model=list[dict])
 async def listar_alergias_nino(nino_matricula: int, db: AsyncSession = Depends(get_session)):
     alergias = await crud.get_alergias_nino(db, nino_matricula)
